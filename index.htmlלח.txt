@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interactive Eyes</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    body, html {
+      height: 200%;
+      overflow-y: scroll;
+      background-color: black;
+    }
+    .container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      z-index: 1;
+      overflow: hidden;
+    }
+    .bg-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .eye {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: black;
+      border-radius: 50%;
+      z-index: 2;
+      transition: transform 0.1s linear;
+    }
+
+    .content {
+      position: relative;
+      z-index: 3;
+      background-color: white;
+      height: 100%;
+      padding: 40px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="d10f2545-217e-4b27-bf9d-285d8ee3e3ed.png" class="bg-image" />
+    <div id="eye-left" class="eye"></div>
+    <div id="eye-right" class="eye"></div>
+  </div>
+
+  <div class="content">
+    <h1>תוכן דף עתידי</h1>
+    <p>ברגע שתגלול – תוכן זה יעלה מעל הדמות עם העיניים.</p>
+  </div>
+
+  <script>
+    const leftEye = document.getElementById('eye-left');
+    const rightEye = document.getElementById('eye-right');
+
+    // קואורדינטות יחסיות לעיניים בתוך התמונה:
+    const leftEyeBase = { x: 810, y: 325 };
+    const rightEyeBase = { x: 1020, y: 325 };
+
+    const maxOffset = 10; // תזוזה מקסימלית
+
+    function updateEyes(e) {
+      const { clientX, clientY } = e;
+
+      const moveEye = (eye, base) => {
+        const dx = (clientX - window.innerWidth / 2) / 100;
+        const dy = (clientY - window.innerHeight / 2) / 100;
+
+        eye.style.left = `${base.x + dx}px`;
+        eye.style.top = `${base.y + dy}px`;
+      };
+
+      moveEye(leftEye, leftEyeBase);
+      moveEye(rightEye, rightEyeBase);
+    }
+
+    window.addEventListener('mousemove', updateEyes);
+  </script>
+</body>
+</html>
